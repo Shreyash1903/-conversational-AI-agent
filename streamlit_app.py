@@ -1,5 +1,14 @@
 import streamlit as st
 import requests
+import os
+import base64
+
+# Decode the credentials.json from Base64 and save it if not already present
+if not os.path.exists("credentials.json"):
+    encoded_json = os.environ.get("CREDENTIALS_JSON_BASE64")
+    if encoded_json:
+        with open("credentials.json", "wb") as f:
+            f.write(base64.b64decode(encoded_json))
 
 # ----------------- CONFIG -----------------
 API_URL = "https://conversational-ai-agent.onrender.com"
