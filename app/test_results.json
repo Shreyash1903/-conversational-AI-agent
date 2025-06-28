@@ -1,0 +1,74 @@
+[
+  {
+    "prompt": "Schedule a team sync tomorrow at 3 PM",
+    "expected": "meeting scheduled",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=bjZhaXYyZGdnMzRnajJtbmVqcmgycGQ3aWMgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Book a discussion next Monday at 10 AM",
+    "expected": "meeting scheduled",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=czkzMzBsZDJnazRhNjIzbTE5Nmo2bTMwcDQgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Schedule call tomorrow at 12 AM",
+    "expected": "meeting scheduled",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=ZDRtcmg2dGZqZ3FncXJhYmp0OWo1Y2p0OGcgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Schedule catch-up tomorrow at noon",
+    "expected": "meeting scheduled",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=MjFtZzdyajM0Y2Z0Z2N2bnNvbmpvMWJhdWcgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Am I free next Friday at 2 PM?",
+    "expected": "you are free",
+    "output": "\u2705 You are free on 2025-07-04 at 14:00.",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Do I have time on Sunday at 5 PM?",
+    "expected": "free",
+    "output": "\u2705 You are free on 2025-07-06 at 17:00.",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Can I schedule something at 11 AM tomorrow?",
+    "expected": "missing required",
+    "output": "\u2705 You are free on 2025-06-29 at 11:00.",
+    "status": "\u274c Failed"
+  },
+  {
+    "prompt": "Meeting tomorrow",
+    "expected": "missing required",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=ZGNobWZuanBxdGhjdjgwMjNvanZlYnZqdjAgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u274c Failed"
+  },
+  {
+    "prompt": "Catch-up with John later in the week",
+    "expected": "missing required",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=NGwwMmhsdDVqMzNua2RybDVkMWQya2xvaTQgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u274c Failed"
+  },
+  {
+    "prompt": "Blah bleh bloh boop",
+    "expected": "could not determine intent",
+    "output": "\u274c Error: Could not determine intent (book or query_availability).",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Schedule catch-up today at 9 AM",
+    "expected": "cannot book a meeting in the past",
+    "output": "\u274c Cannot book a meeting in the past. Please choose a future time.",
+    "status": "\u2705 Passed"
+  },
+  {
+    "prompt": "Book sync tomorrow at 11 AM",
+    "expected": "already have a meeting",
+    "output": "\u2705 Meeting scheduled: https://www.google.com/calendar/event?eid=NWNndmZoM3R2bGJxYm45MmFya2Y3YmRmdGMgc2hyZXlhc2guMjIyMTAzMTFAdmlpdC5hYy5pbg",
+    "status": "\u274c Failed"
+  }
+]
