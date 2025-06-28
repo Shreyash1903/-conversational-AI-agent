@@ -1,6 +1,9 @@
 import streamlit as st
 import requests
 
+# ----------------- CONFIG -----------------
+API_URL = "https://conversational-ai-agent.onrender.com"
+
 # -------------- Page Config ------------------
 st.set_page_config(page_title="AI Booking Assistant", page_icon="📅", layout="wide")
 
@@ -59,7 +62,6 @@ st.markdown("""
         color: #bbbbbb !important;
     }
 
-    /* Button Styling */
     div.stButton > button {
         background-color: #4B8BBE;
         color: white;
@@ -83,7 +85,6 @@ st.markdown("""
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* 🔒 REMOVE red or blue outlines on focus/click */
     div.stButton > button:focus,
     div.stButton > button:focus-visible,
     div.stButton > button:active:focus,
@@ -96,13 +97,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# -------------- Sidebar Dashboard ------------------
+# -------------- Sidebar ------------------
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/2922/2922510.png", width=100)
     st.markdown("## 👋 Welcome, Shreyash")
     st.markdown("AI Calendar Assistant")
 
-    # Theme Switch
     theme = st.radio("🌓 Theme", ["Light", "Dark"], index=0)
     if theme == "Dark":
         st.markdown("""
@@ -123,8 +123,6 @@ with st.sidebar:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-
-    # Quick test prompts
     st.markdown("### 🧪 Quick Test")
     test_prompt = st.selectbox("Choose a test prompt", [
         "Schedule meeting tomorrow at 3 PM",
@@ -133,7 +131,6 @@ with st.sidebar:
         "Schedule something at noon",
         "Random text"
     ])
-
     if st.button("▶️ Run Test Case"):
         st.session_state.user_input = test_prompt
 
@@ -144,9 +141,8 @@ with st.sidebar:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# -------------- Title & Description ------------------
+# -------------- Title ------------------
 st.title("📅 SmartCalendarBot")
-
 st.markdown("""
 <div style="background-color:#f0f2f6; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
     <h4 style="color:#4B8BBE; margin-top: 0;">AI-Driven Conversational Booking Assistant with Google Calendar Integration</h4>
@@ -160,21 +156,21 @@ st.markdown("""
 
 st.subheader("Schedule Meetings with Natural Language !")
 
-# -------------- Chat History ------------------
+# -------------- Chat Display ------------------
 st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 for msg in st.session_state.messages:
     bubble_class = "user-bubble" if msg["role"] == "user" else "bot-bubble"
     st.markdown(f'<div class="{bubble_class}">{msg["content"]}</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# -------------- User Input Field ------------------
+# -------------- Input ------------------
 user_input = st.text_input(
     "What would you like to schedule ?",
     value=st.session_state.get("user_input", ""),
     placeholder="e.g., Schedule a Meeting this Friday at 2 PM"
 )
 
-# -------------- Send Button Logic ------------------
+# -------------- Submit Logic ------------------
 if st.button("🚀 Schedule Meeting"):
     if not user_input.strip():
         st.warning("Please enter something.")
@@ -182,7 +178,7 @@ if st.button("🚀 Schedule Meeting"):
         try:
             st.session_state.messages.append({"role": "user", "content": user_input})
 
-            response = requests.post("http://localhost:8000/chat", json={"user_input": user_input})
+            response = requests.post(f"{API_URL}/chat", json={"user_input": user_input})
             data = response.json()
             message = data.get("response", "No response.")
             parsed = data.get("parsed", {})
@@ -193,12 +189,12 @@ if st.button("🚀 Schedule Meeting"):
             if "You are free" in message and parsed:
                 if st.button("📌 Want to book this meeting?"):
                     parsed["intent"] = "book"
-                    response = requests.post("http://localhost:8000/chat", json={"user_input": str(parsed)})
+                    response = requests.post(f"{API_URL}/chat", json={"user_input": str(parsed)})
                     final_msg = response.json().get("response", "Meeting booked!")
                     st.success(final_msg)
                     st.session_state.messages.append({"role": "bot", "content": final_msg})
 
         except requests.exceptions.ConnectionError:
-            st.error("❌ Backend server is not running (localhost:8000).")
+            st.error(f"❌ Could not connect to backend at {API_URL}")
         except Exception as e:
             st.error(f"❌ Unexpected error: {str(e)}")
